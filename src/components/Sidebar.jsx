@@ -42,13 +42,13 @@ const Sidebar = ({ userCount, agentCount, reportedUserCount, activeTab, setActiv
         <div 
       className={`${
         isCollapsed ? 'w-20' : 'w-72'
-      } min-h-screen bg-gray-900 text-gray-100 transition-all duration-300 ease-in-out relative flex flex-col shadow-xl`}
+      } min-h-screen bg-blue-900 text-gray-100 transition-all duration-300 ease-in-out relative flex flex-col shadow-xl`}
     >
       {/* Toggle Button */}
       {window.innerWidth < 1024 && (
         <button
           onClick={() => setIsCollapsed(!isCollapsed)}
-          className="absolute -right-5 top-1/2 bg-blue-500 rounded-full p-1.5 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition-transform duration-300 ease-in-out transform hover:scale-105 shadow-lg w-10 h-10 flex items-center justify-center text-white"
+          className="absolute -right-5 top-1/2 bg-orange-500 rounded-full p-1.5 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition-transform duration-300 ease-in-out transform hover:scale-105 shadow-lg w-10 h-10 flex items-center justify-center text-white"
         >
           {isCollapsed ? 
             <span className="transition-transform duration-300 ease-in-out transform hover:rotate-90">◎</span> : 
@@ -58,15 +58,15 @@ const Sidebar = ({ userCount, agentCount, reportedUserCount, activeTab, setActiv
       )}
     
       {/* Header */}
-      <div className="px-6 py-8 border-b border-gray-800/60 mt-12 md:mt-0">
+      <div className="px-6 py-2 border-b border-orange-500/60 mt-12 md:mt-0">
         <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 rounded-lg flex items-center justify-center shadow-lg">
+          <div className="w-24 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center shadow-lg">
             <img className="mx-auto" src={logo} alt="Logo" />
           </div>
-          <h2 className={`font-bold transition-all duration-300 ${
+          <h2 className={`font-extrabold text-3xl transition-all duration-300 shadow-lg ${
             isCollapsed ? 'opacity-0 w-0' : 'opacity-100'
           }`}>
-            YaduVivah
+            Yadu Vivah
           </h2>
         </div>
       </div>
@@ -82,8 +82,8 @@ const Sidebar = ({ userCount, agentCount, reportedUserCount, activeTab, setActiv
                   onClick={() => setActiveTab(item.name)}
                   className={`w-full flex items-center px-4 py-3.5 rounded-lg transition-all duration-200 group
                     ${activeTab === item.name 
-                      ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-md' 
-                      : 'text-gray-300 hover:bg-gray-800/80 hover:text-white'
+                      ? 'bg-gradient-to-r from-orange-600 to-orange-700 text-white shadow-md' 
+                      : 'text-gray-300 hover:bg-orange-700/80 hover:text-white'
                     }
                     ${isCollapsed ? 'justify-center' : 'justify-between'}
                   `}
@@ -99,8 +99,8 @@ const Sidebar = ({ userCount, agentCount, reportedUserCount, activeTab, setActiv
                   {!isCollapsed && item.count !== undefined && (
                     <span className={`text-xs px-2 py-1 rounded-full 
                       ${activeTab === item.name 
-                        ? 'bg-blue-500/30 text-white' 
-                        : 'bg-gray-800 text-gray-400'}`}>
+                        ? 'bg-orange-400/30 text-white' 
+                        : 'bg-orange-600 text-gray-100'}`}>
                       {item.count}
                     </span>
                   )}

@@ -36,10 +36,10 @@ const AdminAnalytics = ({ users }) => {
   const [activeSection, setActiveSection] = useState('demographics');
 
   // Color palette
-  const colors = {
-    primary: ['#2563eb', '#3b82f6', '#60a5fa', '#93c5fd'],
-    secondary: ['#7c3aed', '#8b5cf6', '#a78bfa', '#c4b5fd'],
-    accent: ['#059669', '#10b981', '#34d399', '#6ee7b7']
+    const colors = {
+    primary: ['#ff7f0e', '#ff9d4d', '#ffb97d', '#ffd6ad'], // Shades of orange
+    secondary: ['#1f77b4', '#4a90e2', '#7abaff', '#a3d4ff'], // Shades of blue
+    accent: ['#2ca02c', '#4caf50', '#66bb6a', '#81c784'] // Shades of green
   };
 
   useEffect(() => {
@@ -221,13 +221,14 @@ const AdminAnalytics = ({ users }) => {
         {renderMetricCard(
           'Total Users',
           users.length,
-          <Users className="text-blue-500" size={24} />
+          <Users className="text-orange-500" size={24} />
         )}
         {renderMetricCard(
           'Total States',
           analytics.location.states.length,
           <MapPin className="text-purple-500" size={24} />
         )}
+        
       </div>
   
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -411,7 +412,7 @@ const AdminAnalytics = ({ users }) => {
                 onClick={() => setActiveSection(key)}
                 className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                   activeSection === key
-                    ? 'bg-blue-500 text-white'
+                    ? 'bg-orange-500 text-white'
                     : 'bg-white text-gray-600 hover:bg-gray-50'
                 }`}
               >
