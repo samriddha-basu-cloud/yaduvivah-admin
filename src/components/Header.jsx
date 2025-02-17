@@ -26,7 +26,7 @@ const Header = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo and Title */}
           <div className="flex items-center justify-center w-full md:w-auto">
-            <h1 className="text-xl md:text-3xl font-bold text-white tracking-wide text-center md:text-left">
+            <h1 className="text-xl md:text-3xl font-bold text-white tracking-wide text-center md:text-center sm:text-left">
               Admin Dashboard
             </h1>
           </div>

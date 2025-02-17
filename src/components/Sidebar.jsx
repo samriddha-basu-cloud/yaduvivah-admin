@@ -60,7 +60,7 @@ const Sidebar = ({ userCount, agentCount, reportedUserCount, activeTab, setActiv
       {/* Header */}
       <div className="px-6 py-2 border-b border-orange-500/60 mt-12 md:mt-0">
         <div className="flex items-center space-x-3">
-          <div className="w-24 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center shadow-lg">
+          <div className="w-12 h-12 rounded-lg flex items-center justify-center shadow-lg">
             <img className="mx-auto" src={logo} alt="Logo" />
           </div>
           <h2 className={`font-extrabold text-3xl transition-all duration-300 shadow-lg ${

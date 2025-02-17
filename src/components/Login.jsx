@@ -26,14 +26,14 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-200 to-blue-500">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-200 to-orange-500">
       <div className="max-w-md w-full mx-4">
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
           {/* Header Section */}
-          <div className="px-8 pt-8 pb-6 text-center bg-gradient-to-r from-indigo-600 to-indigo-700">
+          <div className="px-8 pt-8 pb-6 text-center bg-gradient-to-r from-blue-600 to-blue-700">
             <img src={Logo} alt="Logo" className="mx-auto h-16 w-auto rounded-full bg-white p-2" />
             <h2 className="text-3xl font-bold text-white mb-2">Welcome Back</h2>
-            <p className="text-indigo-100">Sign in to your admin account</p>
+            <p className="text-blue-100">Sign in to your admin account</p>
           </div>
 
           {/* Form Section */}
@@ -60,7 +60,7 @@ const Login = () => {
                     name="email"
                     type="email"
                     required
-                    className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600 text-gray-900 placeholder-gray-500 bg-white"
+                    className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-blue-600 text-gray-900 placeholder-gray-500 bg-white"
                     placeholder="Enter your email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
@@ -82,7 +82,7 @@ const Login = () => {
                     name="password"
                     type={showPassword ? "text" : "password"}
                     required
-                    className="block w-full pl-10 pr-10 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600 text-gray-900 placeholder-gray-500 bg-white"
+                    className="block w-full pl-10 pr-10 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-blue-600 text-gray-900 placeholder-gray-500 bg-white"
                     placeholder="Enter your password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
@@ -110,14 +110,14 @@ const Login = () => {
                     id="remember-me"
                     name="remember-me"
                     type="checkbox"
-                    className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                   />
                   <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700">
                     Remember me
                   </label>
                 </div> */}
                 {/* <div className="text-sm">
-                  <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
+                  <a href="#" className="font-medium text-blue-600 hover:text-blue-500">
                     Forgot password?
                   </a>
                 </div> */}
@@ -126,7 +126,7 @@ const Login = () => {
               {/* Submit Button */}
               <button
                 type="submit"
-                className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200"
+                className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
               >
                 Sign in to Dashboard
               </button>
@@ -135,9 +135,9 @@ const Login = () => {
         </div>
 
         {/* Footer */}
-        <p className="mt-4 text-center text-sm text-gray-100">
+        <p className="mt-4 text-center text-sm text-white">
           Are you a new user?{" "}
-          <a href="https://yaduvivah.com" className="font-medium text-indigo-600 hover:text-indigo-500">
+          <a href="https://yaduvivah.com" className="font-medium text-blue-600 hover:text-blue-700">
             Visit our website
           </a>
         </p>
