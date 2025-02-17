@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import {
-  BarChart, Bar, PieChart, Pie, 
+  LineChart, Line, PieChart, Pie, 
   XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
-  Cell
+  Cell, BarChart, Bar
 } from 'recharts';
 import { ArrowUp, ArrowDown, Users, MapPin, User } from 'lucide-react';
+import RegionDistrictInsights from './RegionDistrictInsights';
 
 const AdminAnalytics = ({ users }) => {
   // Initialize with empty data structure
@@ -12,7 +13,8 @@ const AdminAnalytics = ({ users }) => {
     demographics: {
       ageGroups: [],
       gender: [],
-      manglic: []
+      manglic: [],
+      height: [] // Add height here
     },
     location: {
       states: [],
@@ -48,119 +50,144 @@ const AdminAnalytics = ({ users }) => {
   }, [users]);
 
   const processData = (users) => {
-  // Demographics
-  const ageGroups = {
-    '18-25': 0, '26-30': 0, '31-35': 0, '36-40': 0, '40+': 0
-  };
-  const genderCount = { Male: 0, Female: 0 };
-  const manglicStatus = { Yes: 0, No: 0 };
-
-  // Location
-  const stateDistribution = {};
-  const districtDistribution = {};
-
-  // Education & Employment
-  const educationLevels = {};
-  const employmentStatus = {};
-
-  // Process user data
-  users.forEach(user => {
-    // Age processing
-    let birthDate = user.dateOfBirth;
-    if (birthDate) {
-      if (birthDate.toDate) {
-        birthDate = birthDate.toDate();
-      } else if (typeof birthDate === 'string') {
-        birthDate = new Date(birthDate);
-      }
-      const age = new Date().getFullYear() - birthDate.getFullYear();
-      if (age <= 25) ageGroups['18-25']++;
-      else if (age <= 30) ageGroups['26-30']++;
-      else if (age <= 35) ageGroups['31-35']++;
-      else if (age <= 40) ageGroups['36-40']++;
-      else ageGroups['40+']++;
-    }
-
-    // Gender
-    if (user.sex) genderCount[user.sex]++;
+    // Demographics
+    const ageGroups = {
+      '18-25': 0, '26-30': 0, '31-35': 0, '36-40': 0, '40+': 0
+    };
+    const genderCount = { Male: 0, Female: 0 };
+    const manglicStatus = { Yes: 0, No: 0 };
+    // Reset height distribution
+    const heightDistribution = {};
     
-    // Manglic status
-    // if (user.manglic !== undefined) {
-    //   manglicStatus[user.manglic ? 'Yes' : 'No']++;
-    // }
-    if (user.manglic) {
-      const valicManglicStatus = ['Yes', 'No'];
-      if (valicManglicStatus.includes(user.manglic)) {
-        manglicStatus[user.manglic] = (manglicStatus[user.manglic] || 0) + 1;
+    // Initialize the height range
+    for (let feet = 3; feet <= 7; feet++) {
+      for (let inches = 0; inches < 12; inches++) {
+        const height = `${feet} ft and ${inches} inches`;
+        heightDistribution[height] = 0; // Initialize with zero
       }
     }
-
+  
     // Location
-    if (user.state) {
-      stateDistribution[user.state] = (stateDistribution[user.state] || 0) + 1;
-    }
-    if (user.district) {
-      districtDistribution[user.district] = (districtDistribution[user.district] || 0) + 1;
-    }
-
+    const stateDistribution = {};
+    const districtDistribution = {};
+  
     // Education & Employment
-    if (user.highestQualification) {
-      const validQualifications = ['tenthPass', 'twelfthPass', 'graduate', 'postGraduate'];
-      if (validQualifications.includes(user.highestQualification)) {
-        educationLevels[user.highestQualification] = (educationLevels[user.highestQualification] || 0) + 1;
+    const educationLevels = {};
+    const employmentStatus = {};
+  
+    // Process user data
+    users.forEach(user => {
+      // Age processing
+      let birthDate = user.dateOfBirth;
+      if (birthDate) {
+        if (birthDate.toDate) {
+          birthDate = birthDate.toDate();
+        } else if (typeof birthDate === 'string') {
+          birthDate = new Date(birthDate);
+        }
+        const age = new Date().getFullYear() - birthDate.getFullYear();
+        if (age <= 25) ageGroups['18-25']++;
+        else if (age <= 30) ageGroups['26-30']++;
+        else if (age <= 35) ageGroups['31-35']++;
+        else if (age <= 40) ageGroups['36-40']++;
+        else ageGroups['40+']++;
       }
-    }
-    if (user.employmentStatus) {
-      const validEmploymentStatuses = ['unemployed', 'employed', 'student'];
-      if (validEmploymentStatuses.includes(user.employmentStatus)) {
-        employmentStatus[user.employmentStatus] = (employmentStatus[user.employmentStatus] || 0) + 1;
+  
+      // Gender
+      if (user.sex) genderCount[user.sex]++;
+      
+      // Manglic status
+      if (user.manglic) {
+        const validManglicStatus = ['Yes', 'No'];
+        if (validManglicStatus.includes(user.manglic)) {
+          manglicStatus[user.manglic] = (manglicStatus[user.manglic] || 0) + 1;
+        }
       }
-    }
-  });
+  
+      // Count users for each height
+      if (user.height) {
+        heightDistribution[user.height] = (heightDistribution[user.height] || 0) + 1;
+      }
+  
+      // Location
+      if (user.state) {
+        stateDistribution[user.state] = (stateDistribution[user.state] || 0) + 1;
+      }
+      if (user.district) {
+        districtDistribution[user.district] = (districtDistribution[user.district] || 0) + 1;
+      }
+  
+      // Education & Employment
+      if (user.highestQualification) {
+        const validQualifications = ['tenthPass', 'twelfthPass', 'graduate', 'postGraduate'];
+        if (validQualifications.includes(user.highestQualification)) {
+          educationLevels[user.highestQualification] = (educationLevels[user.highestQualification] || 0) + 1;
+        }
+      }
+      if (user.employmentStatus) {
+        const validEmploymentStatuses = ['unemployed', 'employed', 'student'];
+        if (validEmploymentStatuses.includes(user.employmentStatus)) {
+          employmentStatus[user.employmentStatus] = (employmentStatus[user.employmentStatus] || 0) + 1;
+        }
+      }
+    });
+  
+    // Convert to array format and sort
+    const sortedHeights = Object.entries(heightDistribution)
+      .map(([height, count]) => ({
+        height,
+        count
+      }))
+      .sort((a, b) => {
+        const [aFeet, aInches] = a.height.split(' ft and ').map(part => parseInt(part.replace(' inches', '')));
+        const [bFeet, bInches] = b.height.split(' ft and ').map(part => parseInt(part.replace(' inches', '')));
+        return (aFeet * 12 + aInches) - (bFeet * 12 + bInches);
+      });
 
-  setAnalytics({
-    demographics: {
-      ageGroups: Object.entries(ageGroups).map(([range, count]) => ({
-        range,
-        count
-      })),
-      gender: Object.entries(genderCount).map(([type, count]) => ({
-        type,
-        count
-      })),
-      manglic: Object.entries(manglicStatus).map(([status, count]) => ({
-        status,
-        count
-      }))
-    },
-    location: {
-      states: Object.entries(stateDistribution)
-        .map(([state, count]) => ({
-          state,
+    setAnalytics({
+      demographics: {
+        ageGroups: Object.entries(ageGroups).map(([range, count]) => ({
+          range,
+          count
+        })),
+        gender: Object.entries(genderCount).map(([type, count]) => ({
+          type,
+          count
+        })),
+        manglic: Object.entries(manglicStatus).map(([status, count]) => ({
+          status,
+          count
+        })),
+        height: sortedHeights
+      },
+      location: {
+        states: Object.entries(stateDistribution)
+          .map(([state, count]) => ({
+            state,
+            count
+          }))
+          .sort((a, b) => b.count - a.count)
+          .slice(0, 10),
+        districts: Object.entries(districtDistribution)
+          .map(([district, count]) => ({
+            district,
+            count
+          }))
+          .sort((a, b) => b.count - a.count)
+          .slice(0, 10)
+      },
+      education: {
+        levels: Object.entries(educationLevels).map(([level, count]) => ({
+          level,
+          count
+        })),
+        employment: Object.entries(employmentStatus).map(([status, count]) => ({
+          status,
           count
         }))
-        .sort((a, b) => b.count - a.count)
-        .slice(0, 10),
-      districts: Object.entries(districtDistribution)
-        .map(([district, count]) => ({
-          district,
-          count
-        }))
-        .sort((a, b) => b.count - a.count)
-        .slice(0, 10)
-    },
-    education: {
-      levels: Object.entries(educationLevels).map(([level, count]) => ({
-        level,
-        count
-      })),
-      employment: Object.entries(employmentStatus).map(([status, count]) => ({
-        status,
-        count
-      }))
-    }
-  });
-};
+      }
+    });
+  };
 
   if (loading) {
     return (
@@ -188,59 +215,60 @@ const AdminAnalytics = ({ users }) => {
     </div>
   );
 
-        const renderDemographics = () => (
-      <div className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {renderMetricCard(
-            'Total Users',
-            users.length,
-            <Users className="text-blue-500" size={24} />
-          )}
-          {renderMetricCard(
-            'Total States',
-            analytics.location.states.length,
-            <MapPin className="text-purple-500" size={24} />
-          )}
+  const renderDemographics = () => (
+    <div className="space-y-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {renderMetricCard(
+          'Total Users',
+          users.length,
+          <Users className="text-blue-500" size={24} />
+        )}
+        {renderMetricCard(
+          'Total States',
+          analytics.location.states.length,
+          <MapPin className="text-purple-500" size={24} />
+        )}
+      </div>
+  
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="bg-white p-6 rounded-lg shadow-md">
+          <h3 className="text-lg font-semibold mb-4">Age Distribution</h3>
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart data={analytics.demographics.ageGroups}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="range" />
+              <YAxis />
+              <Tooltip />
+              <Bar dataKey="count" fill="#3b82f6" />
+            </BarChart>
+          </ResponsiveContainer>
         </div>
-    
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h3 className="text-lg font-semibold mb-4">Age Distribution</h3>
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={analytics.demographics.ageGroups}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="range" />
-                <YAxis />
-                <Tooltip />
-                <Bar dataKey="count" fill="#3b82f6" />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-    
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h3 className="text-lg font-semibold mb-4">Gender Distribution</h3>
-            <ResponsiveContainer width="100%" height={300}>
-              <PieChart>
-                <Pie
-                  data={analytics.demographics.gender}
-                  dataKey="count"
-                  nameKey="type"
-                  cx="50%"
-                  cy="50%"
-                  outerRadius={100}
-                  label
-                >
-                  {analytics.demographics.gender.map((entry, index) => (
-                    <Cell key={index} fill={colors.primary[index % colors.primary.length]} />
-                  ))}
-                </Pie>
-                <Tooltip />
-                <Legend />
-              </PieChart>
-            </ResponsiveContainer>
-          </div>
+  
+        <div className="bg-white p-6 rounded-lg shadow-md">
+          <h3 className="text-lg font-semibold mb-4">Gender Distribution</h3>
+          <ResponsiveContainer width="100%" height={300}>
+            <PieChart>
+              <Pie
+                data={analytics.demographics.gender}
+                dataKey="count"
+                nameKey="type"
+                cx="50%"
+                cy="50%"
+                outerRadius={100}
+                label
+              >
+                {analytics.demographics.gender.map((entry, index) => (
+                  <Cell key={index} fill={colors.primary[index % colors.primary.length]} />
+                ))}
+              </Pie>
+              <Tooltip />
+              <Legend />
+            </PieChart>
+          </ResponsiveContainer>
         </div>
-    
+      </div>
+  
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-white p-6 rounded-lg shadow-md">
           <h3 className="text-lg font-semibold mb-4">Manglic Status Distribution</h3>
           <ResponsiveContainer width="100%" height={300}>
@@ -263,24 +291,42 @@ const AdminAnalytics = ({ users }) => {
             </PieChart>
           </ResponsiveContainer>
         </div>
-      </div>
-    );
-  const renderLocationInsights = () => (
-    <div className="space-y-6">
-      <div className="bg-white p-6 rounded-lg shadow-md">
-        <h3 className="text-lg font-semibold mb-4">Top 10 States</h3>
-        <ResponsiveContainer width="100%" height={400}>
-          <BarChart data={analytics.location.states}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="state" />
-            <YAxis />
-            <Tooltip />
-            <Bar dataKey="count" fill="#7c3aed" />
-          </BarChart>
-        </ResponsiveContainer>
+  
+        <div className="bg-white p-6 rounded-lg shadow-md">
+          <h3 className="text-lg font-semibold mb-4">Height Distribution</h3>
+          <ResponsiveContainer width="100%" height={300}>
+            <LineChart data={analytics.demographics.height}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="height" />
+              <YAxis />
+              <Tooltip />
+              <Line type="monotone" dataKey="count" stroke="#059669" />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
       </div>
     </div>
   );
+
+  const renderLocationInsights = () => (
+  <div className="space-y-6">
+    <div className="bg-white p-6 rounded-lg shadow-md">
+      <h3 className="text-lg font-semibold mb-4">Top 10 States</h3>
+      <ResponsiveContainer width="100%" height={400}>
+        <BarChart data={analytics.location.states}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="state" />
+          <YAxis />
+          <Tooltip />
+          <Bar dataKey="count" fill="#7c3aed" />
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
+    
+    {/* Add the new RegionDistrictInsights component here */}
+    <RegionDistrictInsights users={users} />
+  </div>
+);
 
   const renderEducationEmployment = () => (
     <div className="space-y-6">

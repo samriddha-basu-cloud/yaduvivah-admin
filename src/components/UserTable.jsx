@@ -97,6 +97,7 @@ const UserTable = () => {
   };
 
   // Mobile action menu component
+    // Mobile action menu component
   const ActionMenu = ({ user }) => (
     <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10 border border-gray-200">
       <button
@@ -110,9 +111,17 @@ const UserTable = () => {
       </button>
       <button
         onClick={() => toggleVerification(user)}
-        className="p-1 hover:bg-gray-100 rounded-full"
+        className="w-full px-4 py-2 text-left text-sm hover:bg-gray-100 flex items-center gap-2"
       >
-        <ShieldOff className="w-4 h-4 text-red-500" />
+        {user.verifiedByAdmin ? (
+          <>
+            <ShieldOff className="w-4 h-4 text-red-500" /> UnVerify User
+          </>
+        ) : (
+          <>
+            <Shield className="w-4 h-4 text-green-500" /> Verify User
+          </>
+        )}
       </button>
       <button
         onClick={() => {
@@ -131,7 +140,7 @@ const UserTable = () => {
       {/* Header Section */}
       <div className="p-4">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <h2 className="text-lg font-semibold text-gray-800">Users ({users.length})</h2>
+          <h2 className="text-lg font-semibold text-gray-800">Total Users: {users.length}</h2>
           <div className="relative flex-1 sm:max-w-xs">
             <Search className="w-5 h-5 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2" />
             <input
