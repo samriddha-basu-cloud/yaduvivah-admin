@@ -19,7 +19,7 @@ const AgentList = ({ agents }) => {
                 <td className="px-6 py-4 text-sm text-gray-900">{agent.name}</td>
                 <td className="px-6 py-4 text-sm text-gray-500">{agent.email}</td>
                 <td className="px-6 py-4 text-sm text-gray-500">{agent.referenceCode}</td>
-                <td className="px-6 py-4 text-sm text-gray-500">{agent.registeredUsers || 0}</td>
+                <td className="px-6 py-4 text-sm text-gray-500">{agent.totalNumberofUsers || 0}</td>
               </tr>
             ))
           ) : (
